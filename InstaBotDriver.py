@@ -44,7 +44,7 @@ hour 10: (9/2)(14/1)(11/2)(8/1)     ||(18)
 hour_list: idx[0] = number of people
         idx[1:] = (minutes/number follow)
 '''
-hour_list = [[5,(9,1),(7,1),(18/1),(4,1),(7,1),(20,0)]
+hour_list = [[5,(9,1),(7,1),(18,1),(4,1),(7,1),(20,0)]
     ,[6,(10,1),(22,2),(8,1),(12,2),(8,0)]
     ,[7,(3,2),(19,1),(8,2),(12,2),(19,0)]
     ,[7,(32,2),(4,3),(9,1),(7,1),(8,0)]
@@ -111,12 +111,14 @@ def unfollowPeople(numToUnfollow,user_list,numUnfollowed):
 def setUnfollowTimers(hourList,userList):
     timeTotal = 0
     numToUnfollow = 0
+    # for each hour that will users will be unfollowed
     for i in range(len(hourList)):
-        for j in range(1, len(hour_list[i])):
-            timer = Timer(((hourList[i][j][0] + timeTotal) * 60)+randint(0,59), unfollowPeople,
-                          [hourList[i][j][1], userList, numToUnfollow])
+        for j in range(1, len(hourList[i])):
+            parameters = [hourList[i][j][1], userList, numToUnfollow]
+            timerLength = ((hourList[i][j][0] + timeTotal) * 60)+randint(0,59)
+            timer = Timer(timerLength, unfollowPeople,parameters)
             timer.start()
-            timeTotal += hour_list[i][j][0]
+            timeTotal += hourList[i][j][0]
             numToUnfollow += hourList[i][j][1]
 
 
@@ -129,11 +131,17 @@ def followPeople(numPeopleToFollow,user_list,numUsersFollowed):
 def setFollowTimers(hourList,user_list):
     timeTotal = 0
     numUsersFollowed = 0
+    # for each hour in the hourlist
     for i in range(len(hourList)):
-        for j in range(1,len(hour_list[i])):
-            timer = Timer(((hourList[i][j][0]+timeTotal)*60)+randint(0,59),followPeople,[hourList[i][j][1],user_list,numUsersFollowed])
+        # for every each user that will be followed this hour
+        for j in range(1,len(hourList[i])):
+            # set the timer for them to be followed
+            parameters = [hourList[i][j][1],user_list,numUsersFollowed]
+            timerLength = ((hourList[i][j][0]+timeTotal)*60)+randint(0,59)
+            timer = Timer(timerLength,followPeople,parameters)
             timer.start()
-            timeTotal += hour_list[i][j][0]
+            # increment the amount of time already set
+            timeTotal += hourList[i][j][0]
             numUsersFollowed+=hourList[i][j][1]
 
 
@@ -142,7 +150,7 @@ def sendEmail(header,body,errormsg = ''):
     password = 'wee4woo5'
     recipient = 'nawachter50@gmail.com'
     subject = header
-    message = body+'\n' + errormsg
+    message = body+'\n' + errormsg+"!!!Lines read: "+lines_read
 
     msg = MIMEMultipart()
     msg['From'] = email
@@ -212,4 +220,4 @@ try:
             start = True
 except:
     #send error email
-    sendEmail('There has been an error','The following error has occured: ',str(sys.exc_info()[0]))
+    sendEmail('There has been an error','The following error has occured: ',str(sys.exc_info()))

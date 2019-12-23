@@ -4,7 +4,7 @@ class DayInfo:
         self.hours_list = hours_list
         self.username_list = username_list
         self.date = date
-        self.unfollowDate = self.calcUFD(self.date)
+        self.unfollowDate = self.calcUFD()
         self.numImages = numImages
         self.imageList = imageList
 

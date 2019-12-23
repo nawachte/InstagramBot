@@ -30,8 +30,8 @@ class InstaBot:
         self.driver = self.mobile_emulation()
         self.login()
 
-    def wait(self,waitTime):
-        print("wait")
+    def wait(self,waitTime,optionalMSG=""):
+        print(optionalMSG," wait")
         timer = Timer(waitTime, self.doNothing)
         timer.start()
         startTime = time.time()
@@ -121,7 +121,7 @@ class InstaBot:
             numUsernames = len(usernames)
         printFlag = True
         for i in range(numUsernames):
-            self.wait(1)
+            self.wait(.25)
             usrNmTxt = usernames[i].get_attribute('href')
             usrNmTxt = usrNmTxt[26:]
             usrNmTxt = usrNmTxt[:-1]
