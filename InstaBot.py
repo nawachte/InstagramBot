@@ -16,7 +16,7 @@ class InstaBot:
             login: calls login method to login to instagram
         '''
         self.username = 'krombopulos_memes'
-        self.password = 'wee4woo5'
+        self.password = ''
         self.base_url = 'https://www.instagram.com'
         self.req = requests.Session()
 
